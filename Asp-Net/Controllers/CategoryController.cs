@@ -24,5 +24,18 @@ namespace Asp_Net.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Category item)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Add(item);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(item);
+        }
     }
 }
