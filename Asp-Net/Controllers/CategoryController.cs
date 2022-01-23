@@ -19,5 +19,10 @@ namespace Asp_Net.Controllers
 
             return View(objCategoryList);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
