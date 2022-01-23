@@ -79,6 +79,34 @@ namespace Asp_Net.Controllers
             return View(item);
         }
 
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
 
+            var CategoryFromDb = _db.Categories.Find(id);
+            if (CategoryFromDb == null)
+            {
+                return NotFound();
+            } 
+
+            return View(CategoryFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost(int? id)
+        {
+            var item = _db.Categories.Find(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            _db.Categories.Remove(item);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
