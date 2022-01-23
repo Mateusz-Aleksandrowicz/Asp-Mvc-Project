@@ -29,6 +29,12 @@ namespace Asp_Net.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category item)
         {
+
+            if(item.Name == item.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("name","The DisplayOrder cannot exactly match the Name");
+            }
+
             if (ModelState.IsValid)
             {
                 _db.Categories.Add(item);
