@@ -39,6 +39,7 @@ namespace Asp_Net.Controllers
             {
                 _db.Categories.Add(item);
                 _db.SaveChanges();
+                TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
             return View(item);
@@ -74,6 +75,7 @@ namespace Asp_Net.Controllers
             {
                 _db.Categories.Update(item);
                 _db.SaveChanges();
+                TempData["success"] = "Category edited successfully";
                 return RedirectToAction("Index");
             }
             return View(item);
@@ -106,6 +108,7 @@ namespace Asp_Net.Controllers
             }
             _db.Categories.Remove(item);
             _db.SaveChanges();
+            TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }
     }
