@@ -12,17 +12,17 @@ namespace Asp_Net.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _HostEnviroment;
 
-        public ProductController(IUnitOfWork unitOfWork)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnviroment)
         {
             _unitOfWork = unitOfWork;
+            _HostEnviroment = hostEnviroment;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Product> objProductList = _unitOfWork.Product.GetAll();
-
-            return View(objProductList);
+            return View();
         }
 
         public IActionResult Upsert(int? id)
@@ -54,13 +54,27 @@ namespace Asp_Net.Controllers
         {
             if (ModelState.IsValid)
             {
-                //_unitOfWork.Product.Update(item);
+                string rootPath = _HostEnviroment.WebRootPath;
+                if(file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(rootPath, @"img\products");
+                    var newPath = Path.GetExtension(file.FileName);
+
+                    using(var fs = new FileStream(Path.Combine(uploads, fileName + newPath), FileMode.Create))
+                    {
+                        file.CopyTo(fs);
+                    }
+                    item.Product.ImageUrl = @"\img\products\" + fileName + newPath;
+                }
+
+                _unitOfWork.Product.Add(item.Product);
                 _unitOfWork.Save();
-                TempData["success"] = "Product edited successfully";
+                TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
             }
             return View(item);
-        }
+        }   
 
         public IActionResult Delete(int? id)
         {
@@ -92,5 +106,14 @@ namespace Asp_Net.Controllers
             TempData["success"] = "Product deleted successfully";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll();
+            return Json(new { data = productList });
+        }
+        #endregion
     }
 }
