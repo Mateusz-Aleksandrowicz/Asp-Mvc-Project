@@ -2,6 +2,7 @@
 using Asp_Net.DataAcess;
 using Asp_Net.DataAcess.Repository.IRepository;
 using Asp_Net.Models;
+using Asp_Net.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -22,24 +23,23 @@ namespace Asp_Net.Controllers
             IEnumerable<Product> objProductList = _unitOfWork.Product.GetAll();
 
             return View(objProductList);
-        } 
+        }
 
         public IActionResult Upsert(int? id)
         {
-            Product product = new();
-
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
-                u => new SelectListItem
+            ProductVM productVM = new()
+            {
+                Product = new(),
+                CategoryList = _unitOfWork.Category.GetAll().Select(i => new SelectListItem
                 {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }
-                );
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                })
+            };
 
             if (id == null || id == 0)
             {
-                ViewBag.CategoryList = CategoryList;
-                return View(product);
+                return View(productVM);
             }
             else
             {
@@ -50,11 +50,11 @@ namespace Asp_Net.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Product item)
+        public IActionResult Upsert(ProductVM item, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Update(item);
+                //_unitOfWork.Product.Update(item);
                 _unitOfWork.Save();
                 TempData["success"] = "Product edited successfully";
                 return RedirectToAction("Index");
