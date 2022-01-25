@@ -1,4 +1,4 @@
-using Asp_Net.Data;
+using Asp_Net.DataAcess;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

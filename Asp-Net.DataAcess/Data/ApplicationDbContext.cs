@@ -1,7 +1,7 @@
 ﻿using Asp_Net.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Asp_Net.Data
+namespace Asp_Net.DataAcess
 {
     public class ApplicationDbContext: DbContext
     {

@@ -20,4 +20,8 @@
     <PackageReference Include="toastr" Version="2.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Asp-Net.DataAcess\Asp-Net.DataAcess.csproj" />
+  </ItemGroup>
+
 </Project>
