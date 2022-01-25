@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Asp_Net.DataAcess.Repository
 {
-    internal class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
 
         private readonly ApplicationDbContext _db;
@@ -35,7 +35,7 @@ namespace Asp_Net.DataAcess.Repository
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet;
-            query.Where(filter);
+            query = query.Where(filter);
             return query.FirstOrDefault();
         }
 

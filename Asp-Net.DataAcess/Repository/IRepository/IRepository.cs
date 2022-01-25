@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Asp_Net.DataAcess.Repository.IRepository
 {
-    internal interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
         IEnumerable<T> GetAll();

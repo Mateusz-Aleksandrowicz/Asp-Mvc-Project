@@ -1,5 +1,6 @@
 ﻿
 using Asp_Net.DataAcess;
+using Asp_Net.DataAcess.Repository.IRepository;
 using Asp_Net.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,16 +8,16 @@ namespace Asp_Net.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ICategoryRepository _db;
 
-        public CategoryController(ApplicationDbContext db)
+        public CategoryController(ICategoryRepository db)
         {
             _db = db; 
         }
 
         public IActionResult Index()
         {
-            IEnumerable<Category> objCategoryList = _db.Categories;
+            IEnumerable<Category> objCategoryList = _db.GetAll();
 
             return View(objCategoryList);
         }
@@ -38,8 +39,8 @@ namespace Asp_Net.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(item);
-                _db.SaveChanges();
+                _db.Add(item);
+                _db.Save();
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
             }
@@ -54,7 +55,7 @@ namespace Asp_Net.Controllers
             }
 
            // var CategoryFromDb = _db.Categories.Find(id);
-            var CategoryFromDbFirst = _db.Categories.FirstOrDefault(x => x.Name == "id");   
+            var CategoryFromDbFirst = _db.GetFirstOrDefault(x => x.Id == id);   
             if(CategoryFromDbFirst == null)
             {
                 return NotFound();
@@ -75,8 +76,8 @@ namespace Asp_Net.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Categories.Update(item);
-                _db.SaveChanges();
+                _db.Update(item);
+                _db.Save();
                 TempData["success"] = "Category edited successfully";
                 return RedirectToAction("Index");
             }
@@ -90,7 +91,7 @@ namespace Asp_Net.Controllers
                 return NotFound();
             }
 
-            var CategoryFromDb = _db.Categories.Find(id);
+            var CategoryFromDb = _db.GetFirstOrDefault(x => x.Id == id);
             if (CategoryFromDb == null)
             {
                 return NotFound();
@@ -103,13 +104,13 @@ namespace Asp_Net.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var item = _db.Categories.Find(id);
+            var item = _db.GetFirstOrDefault(x => x.Id == id);
             if (item == null)
             {
                 return NotFound();
             }
-            _db.Categories.Remove(item);
-            _db.SaveChanges();
+            _db.Remove(item);
+            _db.Save();
             TempData["success"] = "Category deleted successfully";
             return RedirectToAction("Index");
         }
