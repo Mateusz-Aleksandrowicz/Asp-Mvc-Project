@@ -53,13 +53,14 @@ namespace Asp_Net.Controllers
                 return NotFound();
             }
 
-            var CategoryFromDb = _db.Categories.Find(id);
-            if(CategoryFromDb == null)
+           // var CategoryFromDb = _db.Categories.Find(id);
+            var CategoryFromDbFirst = _db.Categories.FirstOrDefault(x => x.Name == "id");   
+            if(CategoryFromDbFirst == null)
             {
                 return NotFound();
             }
 
-            return View(CategoryFromDb);
+            return View(CategoryFromDbFirst);
         }
 
         [HttpPost]
