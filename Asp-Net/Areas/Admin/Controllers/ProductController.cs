@@ -43,9 +43,9 @@ namespace Asp_Net.Controllers
             }
             else
             {
-
+                productVM.Product = _unitOfWork.Product.GetFirstOrDefault(u=> u.Id == id);
+                return View(productVM);
             }
-            return View();
         }
 
         [HttpPost]
@@ -61,14 +61,29 @@ namespace Asp_Net.Controllers
                     var uploads = Path.Combine(rootPath, @"img\products");
                     var newPath = Path.GetExtension(file.FileName);
 
+                    if(item.Product.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(rootPath, item.Product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
                     using(var fs = new FileStream(Path.Combine(uploads, fileName + newPath), FileMode.Create))
                     {
                         file.CopyTo(fs);
                     }
                     item.Product.ImageUrl = @"\img\products\" + fileName + newPath;
                 }
-
-                _unitOfWork.Product.Add(item.Product);
+                if(item.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(item.Product);
+                }
+                else
+                {
+                    _unitOfWork.Product.Update(item.Product);
+                }
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
@@ -92,6 +107,14 @@ namespace Asp_Net.Controllers
             return View(ProductFromDb);
         }
 
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.GetAll(includeProperties:"Category");
+            return Json(new { data = productList });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
@@ -105,14 +128,6 @@ namespace Asp_Net.Controllers
             _unitOfWork.Save();
             TempData["success"] = "Product deleted successfully";
             return RedirectToAction("Index");
-        }
-
-        #region API CALLS
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var productList = _unitOfWork.Product.GetAll();
-            return Json(new { data = productList });
         }
         #endregion
     }
