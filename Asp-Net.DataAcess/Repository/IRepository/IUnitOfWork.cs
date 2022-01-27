@@ -10,6 +10,8 @@ namespace Asp_Net.DataAcess.Repository.IRepository
     {
         ICategoryRepository Category { get; }
         IProductRepository Product { get; }
+        IShoppingCartRepository ShoppingCart { get; }
+        IUserRepository User { get; }
 
 
         void Save();
