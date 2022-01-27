@@ -1,5 +1,6 @@
 ﻿using Asp_Net.DataAcess.Repository.IRepository;
 using Asp_Net.Models;
+using Asp_Net.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -22,7 +23,18 @@ namespace Asp_Net.Controllers
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties:"Category");
             return View(productList);
         }
-        
+
+        public IActionResult Details(int id)
+        {
+            ShoppingCart cartItem = new()
+            {
+                Count = 1,
+                Product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id, includeProperties: "Category"),
+            };
+            return View(cartItem);
+        }
+
+
         public IActionResult Privacy()
         {
             return View();

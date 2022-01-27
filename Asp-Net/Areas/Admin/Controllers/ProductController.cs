@@ -91,22 +91,6 @@ namespace Asp_Net.Controllers
             return View(item);
         }   
 
-        public IActionResult Delete(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-
-            var ProductFromDb = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == id);
-            if (ProductFromDb == null)
-            {
-                return NotFound();
-            }
-
-            return View(ProductFromDb);
-        }
-
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll()
@@ -115,19 +99,23 @@ namespace Asp_Net.Controllers
             return Json(new { data = productList });
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? id)
+        [HttpDelete]
+        public IActionResult Delete(int? id)
         {
             var item = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == id);
             if (item == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Error while Deleting" });
             }
+            var oldImagePath = Path.Combine(_HostEnviroment.WebRootPath, item.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
             _unitOfWork.Product.Remove(item);
             _unitOfWork.Save();
-            TempData["success"] = "Product deleted successfully";
-            return RedirectToAction("Index");
+            return Json(new { success = true, message = "Delete Succesful" });
         }
         #endregion
     }
