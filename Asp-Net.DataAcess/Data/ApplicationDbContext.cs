@@ -13,7 +13,7 @@ namespace Asp_Net.DataAcess
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
     }
 }
