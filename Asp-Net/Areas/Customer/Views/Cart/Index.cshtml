@@ -64,7 +64,7 @@
                     <div class="card-footer">
                         <div class="card-footer row">                        
                                 <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
-                                    <a class="btn btn-success form-control">Summary</a>
+                                    <a onclick="Alert()" class="btn btn-success form-control">Summary</a>
                                 </div>
                         </div>
                     </div>
@@ -72,3 +72,19 @@
             </div>
         </div>
 </form>
+@section Scripts{
+    <script src="<script src="sweetalert2.all.min.js"></script>"></script>
+    <script>
+        function Alert(){
+            Swal.fire({
+  title: 'Work in Progress... Try Later',
+  showClass: {
+    popup: 'animate__animated animate__fadeInDown'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutUp'
+  }
+})
+        }
+    </script>    
+}

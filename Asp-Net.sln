@@ -5,11 +5,16 @@ VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asp-Net", "Asp-Net\Asp-Net.csproj", "{A2482D85-E6AD-4E64-8A87-9F6C0D8BC3A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asp-Net.DataAcess", "Asp-Net.DataAcess\Asp-Net.DataAcess.csproj", "{18E63E19-C07A-45FE-BB7F-CEBA785FFD8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asp-Net.DataAcess", "Asp-Net.DataAcess\Asp-Net.DataAcess.csproj", "{18E63E19-C07A-45FE-BB7F-CEBA785FFD8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asp-Net.Models", "Asp-Net.Models\Asp-Net.Models.csproj", "{62F08628-62C5-48AB-8B9C-5460128C5A2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asp-Net.Models", "Asp-Net.Models\Asp-Net.Models.csproj", "{62F08628-62C5-48AB-8B9C-5460128C5A2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asp-Net.Utility", "Asp-Net.Utility\Asp-Net.Utility.csproj", "{6B5E2372-FDE0-4356-A933-E0A8A8CF2C1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asp-Net.Utility", "Asp-Net.Utility\Asp-Net.Utility.csproj", "{6B5E2372-FDE0-4356-A933-E0A8A8CF2C1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B10872FB-E241-490A-9CE5-9FDDFB061D47}"
+	ProjectSection(SolutionItems) = preProject
+		InformacjeDoUruchomienia.txt = InformacjeDoUruchomienia.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
