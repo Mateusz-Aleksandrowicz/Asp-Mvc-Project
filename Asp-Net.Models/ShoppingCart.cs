@@ -23,5 +23,7 @@ namespace Asp_Net.Models.ViewModels
         [ForeignKey("UserId")]
         [ValidateNever]
         public User User { get; set; }
+        [NotMapped]
+        public double Price { get; set; }
     }
 }
