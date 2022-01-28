@@ -21,7 +21,7 @@ function loadDataTable() {
                     <div class="w-75 btn-group" role="group">
                             <a href="/Admin/Product/Upsert?id=${data}"
                             class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i>Edit</a>
-                            <a onclick=Delete('/Admin/Product/Delete/+${data}')
+                            <a onclick=Delete('/Admin/Product/Delete/${data}')
                             class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i>Delete</a>
                     </div>
                 `
@@ -55,11 +55,13 @@ function Delete(url) {
                 url: url,
                 type: 'DELETE',
                 success: function (data) {
-                    if (data.success) {
+                    if (data.success)
+                    {
                         dataTable.ajax.reload();
                         toastr.success(data.message);
                     }
-                    else {
+                    else
+                    {
                         toastr.error(data.message);
                     }
                 }

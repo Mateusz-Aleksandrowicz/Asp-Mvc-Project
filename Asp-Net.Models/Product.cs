@@ -15,7 +15,7 @@ namespace Asp_Net.Models
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Provenance { get; set; } = "Unknown";
+        public string Provenance { get; set; }
         [Required]
         [Range(1,10000)]
         public double ListPrice { get; set; }
